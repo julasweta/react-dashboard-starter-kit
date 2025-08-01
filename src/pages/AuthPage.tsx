@@ -6,7 +6,7 @@ export default function AuthPage() {
   const login = useAuthStore((s) => s.login);
   const navigate = useNavigate();
 
-  const handleLogin = (email: string, password: string) => {
+  const handleLogin = (_email: string, _password: string) => {
     // Тестова авторизація — для входу вводьте будь-які дані
     login("fake_token");
     navigate("/");
