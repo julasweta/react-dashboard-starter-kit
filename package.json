@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://julasweta.github.io/react-dashboard-starter-kit/",
+  "homepage": "https://julasweta.github.io/react-dashboard-starter-kit",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

@@ -13,6 +13,12 @@ A quick start template for building modern admin panels with **React + TypeScrip
 
 ---
 
+## 🌐 Demo
+
+Check out the live demo: [https://julasweta.github.io/react-dashboard-starter-kit/](https://julasweta.github.io/react-dashboard-starter-kit/)
+
+---
+
 ## 📦 Installation
 
 ```bash
