@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { Button } from "../../components/ui/buttons/Button";
+import { Input } from "../../components/ui/inputs/Input";
+
 interface Props<T extends Record<string, any>> {
   onClose: () => void;
   onSave: (data: T) => void;
@@ -40,32 +43,21 @@ export default function ModalForm<T extends Record<string, any>>({
             className="space-y-3"
           >
             {keys.map((key) => (
-              <div key={key} className="flex flex-col">
-                <label className="text-sm font-medium mb-1">
-                  {key}
-                </label>
-                <input
-                  name={key}
-                  value={form[key] ?? ""}
-                  onChange={handleChange}
-                  className="w-full border p-2 rounded"
-                />
-              </div>
+              <Input
+                key={key}
+                label={key}
+                name={key}
+                value={form[key] ?? ""}
+                onChange={handleChange}
+              />
             ))}
             <div className="flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 bg-gray-300 rounded"
-              >
+              <Button type="button" variant="secondary" onClick={onClose}>
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
+              </Button>
+              <Button type="submit" variant="primary">
                 Save
-              </button>
+              </Button>
             </div>
           </form>
         )}

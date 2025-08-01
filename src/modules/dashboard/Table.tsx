@@ -1,3 +1,4 @@
+import { Button } from "../../components/ui/buttons/Button";
 import { useThemeStore } from "../../store";
 
 interface TableProps<T> {
@@ -73,18 +74,21 @@ export default function Table<T extends Record<string, any>>({
               className={`px-6 py-3 border-b ${theme === "dark" ? "border-gray-700" : "border-gray-300"
                 }`}
             >
-              <button
-                onClick={() => onEdit(row)}
-                className="mr-3 text-blue-600 hover:text-blue-800 focus:outline-none focus:underline"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => onDelete(row[idKey] as number)}
-                className="text-red-600 hover:text-red-800 focus:outline-none focus:underline"
-              >
-                Delete
-              </button>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => onEdit(row)}
+                  variant="secondary"
+                >
+                  Edit
+                </Button>
+                <Button
+                  onClick={() => onDelete(row[idKey] as number)}
+                  variant="danger"
+                >
+                  Delete
+                </Button>
+              </div>
+
             </td>
           </tr>
         ))}
