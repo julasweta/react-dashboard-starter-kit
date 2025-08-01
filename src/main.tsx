@@ -6,7 +6,7 @@ import "./theme/tailwind.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/react-dashboard-starter-kit">
       <App />
     </BrowserRouter>
   </React.StrictMode>
