@@ -1,21 +1,29 @@
 import { create } from "zustand";
+import type { IUser } from "../interfaces/IUser";
 
 interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
-  login: (accessToken: string, refreshToken: string) => void;
+  user: IUser | null;
+  login: (accessToken: string, refreshToken: string, user: IUser) => void;
+  setUser: (user: IUser | null) => void;
   logout: () => void;
   setTokens: (accessToken: string, refreshToken: string) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  accessToken: localStorage.getItem("accessToken"),
-  refreshToken: localStorage.getItem("refreshToken"),
+  accessToken: localStorage.getItem("accessToken") || null,
+  refreshToken: localStorage.getItem("refreshToken") || null,
+  user: null,
 
-  login: (accessToken, refreshToken) => {
+  login: (accessToken, refreshToken, user) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
-    set({ accessToken, refreshToken });
+    set({ accessToken, refreshToken, user });
+  },
+
+  setUser: (user) => {
+    set({ user });
   },
 
   setTokens: (accessToken, refreshToken) => {
@@ -27,7 +35,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   logout: () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    set({ accessToken: null, refreshToken: null });
+    set({ accessToken: null, refreshToken: null, user: null });
   },
 }));
-
