@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
+import classNames from "classnames";
 import styles from "./FileUpload.module.scss";
 import { Button } from "../Buttons/Button";
 import { Input } from "../Inputs/Input";
+import { useThemeStore } from "../../../store";
 
 interface FileUploadProps {
   multiple?: boolean;
@@ -20,6 +22,7 @@ export const FileUpload = ({
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [dragActive, setDragActive] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const { theme } = useThemeStore();
 
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
@@ -31,7 +34,7 @@ export const FileUpload = ({
       if (multiple) {
         const newFiles = [...prevFiles];
         validFiles.forEach((file) => {
-          if (!newFiles.some(f => f.name === file.name && f.size === file.size)) {
+          if (!newFiles.some((f) => f.name === file.name && f.size === file.size)) {
             newFiles.push(file);
           }
         });
@@ -69,7 +72,7 @@ export const FileUpload = ({
 
     try {
       const formData = new FormData();
-      selectedFiles.forEach(file => {
+      selectedFiles.forEach((file) => {
         formData.append("files", file);
       });
 
@@ -86,9 +89,11 @@ export const FileUpload = ({
   };
 
   return (
-    <div className={styles.fileUploadContainer}>
+    <div className={classNames(styles.fileUploadContainer, styles[theme])}>
       <div
-        className={`${styles.uploadWrapper} ${dragActive ? styles.dragActive : ""}`}
+        className={classNames(styles.uploadWrapper, styles[theme],{
+          [styles.dragActive]: dragActive,
+        })}
         onDrop={handleDrop}
         onDragOver={(e) => {
           e.preventDefault();
@@ -117,7 +122,7 @@ export const FileUpload = ({
         <div className={styles.filesAndButtonWrapper}>
           <ul className={styles.fileList}>
             {selectedFiles.map((file, index) => (
-              <li key={file.name + index} className={styles.fileItem}>
+              <li key={file.name + index} className={classNames(styles.fileItem, styles[theme])}>
                 📄 {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
                 <button
                   type="button"

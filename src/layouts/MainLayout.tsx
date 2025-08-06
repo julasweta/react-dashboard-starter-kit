@@ -14,13 +14,13 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         {/* Сайдбар */}
         <aside className="w-60 bg-gray-800 text-white p-4 flex flex-col">
           <h2 className="text-xl font-bold mb-6">Dashboard</h2>
-          <nav className="flex flex-col gap-2 flex-grow">
+          <nav className="flex flex-col gap-2 mb-4">
             <Link to="/dashboard" className="hover:underline">Home</Link>
             <Link to="/profile" className="hover:underline">Profile</Link>
           </nav>
           <button
             onClick={logout}
-            className="text-red-400 mt-4 hover:underline"
+            className="text-red-400 hover:underline"
           >
             Logout
           </button>

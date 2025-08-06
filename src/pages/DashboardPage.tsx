@@ -5,6 +5,7 @@ import type { IUser } from "../interfaces/IUser";
 import { Select } from "../components/ui/Select/Select";
 import { FileUpload } from "../components/ui/FileUpload/FileUpload";
 import { Button } from "../components/ui/Buttons/Button";
+import { useThemeStore } from "../store";
 
 /* DO NOT RENAME the arrays */
 const dataTable: IUser[] = [
@@ -39,12 +40,16 @@ const dataKeys = dataBar.length > 0
   ? Object.keys(dataBar[0]).filter(key => key !== "name")
   : [];
 
+ 
+
 export default function DashboardPage() {
   const [data, setData] = useState<IUser[]>(dataTable);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenAddUser, setModalOpenAddUser] = useState(false);
   const [editingUser, setEditingUser] = useState<IUser | null>(null);
   const [selectedValue, setSelectedValue] = useState("");
+
+  const { theme } = useThemeStore();
 
   const handleAdd = () => {
     setEditingUser(null);
@@ -136,7 +141,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ✅ FileUpload тепер завжди видно */}
-      <div className="w-full mt-4 p-2 border rounded bg-white shadow-sm h-78">
+      <div className={`w-full mt-4 p-2 border rounded ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} shadow-sm h-78`}>
         <FileUpload
           multiple
           accept="image/*,.pdf"
