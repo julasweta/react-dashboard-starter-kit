@@ -1,9 +1,11 @@
-import type { InputHTMLAttributes } from "react";
+import React from "react"; // Імпорт значення
+import type { InputHTMLAttributes, ForwardedRef } from "react"; // Імпорт типів
 import styles from "./Input.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  ref?: ForwardedRef<HTMLInputElement>;
 }
 
 export const Input = ({
@@ -34,3 +36,8 @@ export const Input = ({
     </div>
   );
 };
+
+// Обгортаємо компонент у forwardRef
+export default React.forwardRef<HTMLInputElement, InputProps>((props, ref) => (
+  <Input {...props} ref={ref} />
+));

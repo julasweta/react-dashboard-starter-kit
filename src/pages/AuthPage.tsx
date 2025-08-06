@@ -8,7 +8,7 @@ export default function AuthPage() {
 
   const handleLogin = (_email: string, _password: string) => {
     // Тестова авторизація — для входу вводьте будь-які дані
-    login("fake_token");
+    login("fake_acesstoken", "fake_refreshtoken");
     navigate("/");
   };
 

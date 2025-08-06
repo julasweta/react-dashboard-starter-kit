@@ -2,25 +2,16 @@ import { useState } from "react";
 import { Table, ModalForm } from "../modules/dashboard";
 import { BarChart, PieChart } from "../modules/charts";
 import type { IUser } from "../interfaces/IUser";
+import { Select } from "../components/ui/Select/Select";
+import { FileUpload } from "../components/ui/FileUpload/FileUpload";
+import { Button } from "../components/ui/Buttons/Button";
 
-/**
- * DashboardPage component with user management, bar and pie charts.
- * 
- * NOTE:
- * - You can change the data arrays (dataTable, dataBar, dataPie) — both keys and values — to update the displayed content.
- * - However, DO NOT RENAME the arrays themselves (dataTable, dataBar, dataPie), 
- *   as some internal logic depends on these specific names.
- * - Changing the array names may break component functionality.
- */
-
-
-/* DO NOT RENAME  the array */
+/* DO NOT RENAME the arrays */
 const dataTable: IUser[] = [
   { id: 1, name: "John Doe", email: "john@mail.com", role: "Admin", state: "active" },
   { id: 2, name: "Jane Smith", email: "jane@mail.com", role: "User", state: "inactive" },
 ];
 
-/* DO NOT RENAME  the array */
 const dataBar = [
   { name: 'Січень', meat: 4000, expenses: 2400, profit: 1600 },
   { name: 'Лютий', meat: 3000, expenses: 1398, profit: 1602 },
@@ -31,27 +22,33 @@ const dataBar = [
   { name: 'Липень', meat: 3490, expenses: 4300, profit: -810 },
 ];
 
-/* DO NOT RENAME the array */
 const dataPie = [
   { device: "Desktop", count: 400 },
   { device: "Mobile", count: 300 },
   { device: "Tablet", count: 100 },
 ];
 
+const dataForAddUser: IUser = {
+  name: "",
+  email: "",
+  role: "",
+  state: "inactive",
+}
+
 const dataKeys = dataBar.length > 0
   ? Object.keys(dataBar[0]).filter(key => key !== "name")
   : [];
 
-
-
 export default function DashboardPage() {
   const [data, setData] = useState<IUser[]>(dataTable);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpenAddUser, setModalOpenAddUser] = useState(false);
   const [editingUser, setEditingUser] = useState<IUser | null>(null);
+  const [selectedValue, setSelectedValue] = useState("");
 
   const handleAdd = () => {
     setEditingUser(null);
-    setModalOpen(true);
+    setModalOpenAddUser(true);
   };
 
   const handleEdit = (user: IUser) => {
@@ -69,47 +66,84 @@ export default function DashboardPage() {
     } else {
       setData((prev) => [...prev, { ...user, id: Date.now() }]);
     }
+    if (isModalOpenAddUser) {
+      setModalOpenAddUser(false);
+    }
+
     setModalOpen(false);
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
+    <div className="flex flex-col gap-6 pb-10">
+      <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Users</h1>
-        <button
+        <Button
           onClick={handleAdd}
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
           Add User
-        </button>
+        </Button>
       </div>
 
       <Table data={data} onEdit={handleEdit} onDelete={handleDelete} idKey="id" />
+
       {isModalOpen && (
         <ModalForm<IUser>
           onClose={() => setModalOpen(false)}
-          onSave={(user) => handleSave(user)}
+          onSave={handleSave}
           initialData={editingUser}
         />
-
       )}
 
+      {isModalOpenAddUser && (
+        <ModalForm<IUser>
+          onClose={() => setModalOpenAddUser(false)}
+          onSave={handleSave}
+          initialData={dataForAddUser}
+          title="Add User"
+        />
+      )}
 
-      <BarChart
-        data={dataBar}
-        dataKeys={dataKeys as (keyof typeof dataBar[0])[]}
-        colors={["#8884d8", "#82ca9d", "#ff7300"]}
-        xDataKey="name"
-        title="Фінансові показники"
-      />
+      <div className="w-full overflow-x-auto">
+        <BarChart
+          data={dataBar}
+          dataKeys={dataKeys as (keyof typeof dataBar[0])[]}
+          colors={["#8884d8", "#82ca9d", "#ff7300"]}
+          xDataKey="name"
+          title="Фінансові показники"
+        />
+      </div>
 
-      <PieChart
-        data={dataPie}
-        nameKey="device"
-        valueKey="count"
-        title="Traffic by Device"
-      />
+      <div className="w-full overflow-x-auto">
+        <PieChart
+          data={dataPie}
+          nameKey="device"
+          valueKey="count"
+          title="Traffic by Device"
+        />
+      </div>
 
+      <div className="flex flex-col gap-2">
+        <h3>Select Option</h3>
+        <Select
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+          ]}
+          value={selectedValue}
+          onChange={setSelectedValue}
+        />
+      </div>
+
+      {/* ✅ FileUpload тепер завжди видно */}
+      <div className="w-full mt-4 p-2 border rounded bg-white shadow-sm h-78">
+        <FileUpload
+          multiple
+          accept="image/*,.pdf"
+          maxSizeMB={10}
+          onFilesSelected={(files) => console.log("Selected:", files)}
+        />
+      </div>
     </div>
   );
 }
