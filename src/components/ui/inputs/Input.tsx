@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes } from "react";
-
+import styles from "./Input.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -16,10 +16,10 @@ export const Input = ({
   ...rest
 }: InputProps) => {
   return (
-    <div className="w-full">
+    <div className={styles.inputWrapper}>
       {label && (
-        <label className="block mb-1 text-sm font-medium text-gray-700">
-          {label} {required && <span className="text-red-500">*</span>}
+        <label className={styles.label}>
+          {label} {required && <span className={styles.required}>*</span>}
         </label>
       )}
       <input
@@ -27,13 +27,10 @@ export const Input = ({
         placeholder={placeholder}
         disabled={disabled}
         required={required}
-        className={`w-full px-3 py-2 border rounded-md outline-none transition
-          ${error ? "border-red-500" : "border-gray-300"}
-          focus:ring-2 focus:ring-blue-500
-          disabled:bg-gray-100 disabled:cursor-not-allowed`}
+        className={`${styles.input} ${error ? styles.errorBorder : ""}`}
         {...rest}
       />
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && <p className={styles.errorText}>{error}</p>}
     </div>
   );
 };

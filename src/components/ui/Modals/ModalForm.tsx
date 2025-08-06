@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { Button } from "../../components/ui/buttons/Button";
-import { Input } from "../../components/ui/inputs/Input";
+import { Button } from "../Buttons/Button";
+import { Input } from "../Inputs/Input";
+import classNames from "classnames";
+import styles from "./ModalForm.module.scss";
 
 interface Props<T extends Record<string, any>> {
   onClose: () => void;
@@ -29,18 +31,19 @@ export default function ModalForm<T extends Record<string, any>>({
   const keys = Object.keys(form);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="p-6 rounded shadow max-w-md mx-auto bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-        <h2 className="text-xl mb-4">
+    <div className={styles.overlay}>
+      <div className={classNames(styles.modal)}>
+        <h2 className={styles.title}>
           {initialData ? "Edit Item" : "Add Item"}
         </h2>
+
         {keys.length > 0 && (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               onSave(form);
             }}
-            className="space-y-3"
+            className={styles.form}
           >
             {keys.map((key) => (
               <Input
@@ -51,7 +54,8 @@ export default function ModalForm<T extends Record<string, any>>({
                 onChange={handleChange}
               />
             ))}
-            <div className="flex justify-end gap-2">
+
+            <div className={styles.actions}>
               <Button type="button" variant="secondary" onClick={onClose}>
                 Cancel
               </Button>
@@ -65,3 +69,4 @@ export default function ModalForm<T extends Record<string, any>>({
     </div>
   );
 }
+

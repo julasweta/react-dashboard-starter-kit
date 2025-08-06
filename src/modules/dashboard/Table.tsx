@@ -1,4 +1,4 @@
-import { Button } from "../../components/ui/buttons/Button";
+import { Button } from "../../components/ui/Buttons/Button";
 import { useThemeStore } from "../../store";
 
 interface TableProps<T> {

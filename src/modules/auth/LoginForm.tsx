@@ -1,6 +1,8 @@
 import { useState } from "react";
-import  { Button } from "../../components/ui/buttons/Button";
-import  { Input } from "../../components/ui/inputs/Input";
+import { Button } from "../../components/ui/Buttons/Button";
+import { Input } from "../../components/ui/Inputs/Input";
+import classNames from "classnames";
+import styles from "./LoginForm.module.scss";
 
 interface LoginFormProps {
   onLogin: (email: string, password: string) => void;
@@ -16,9 +18,9 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded shadow w-80">
-      <h1 className="text-2xl mb-4">Login</h1>
-      <form onSubmit={submitHandler} className="space-y-4">
+    <div className={classNames(styles.loginContainer)}>
+      <h1 className={styles.title}>Login</h1>
+      <form onSubmit={submitHandler} className={styles.form}>
         <Input
           label="Email"
           type="email"
@@ -35,14 +37,11 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <Button type="submit" >
-          Sign In
-        </Button>
+        <Button type="submit">Sign In</Button>
       </form>
-      <p className="mt-4 text-sm text-gray-500 text-center">
-
+      <p className={styles.infoText}>
         This is a test authentication. Enter any data to log in.
-        <br></br>
+        <br />
         Це тестова авторизація. Для входу введіть будь-які дані.
       </p>
     </div>

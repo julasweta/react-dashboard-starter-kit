@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import styles from "./Button.module.scss";
+import classNames from 'classnames';
 
 interface ButtonProps {
   type?: "button" | "submit" | "reset";
@@ -17,25 +19,18 @@ export const Button = ({
   variant = "primary",
   children,
 }: ButtonProps) => {
-  const baseStyles =
-    "px-4 py-2 rounded transition flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed";
-
-  const variants = {
-    primary: "bg-blue-500 text-white hover:bg-blue-600",
-    secondary: "bg-gray-300 text-gray-800 hover:bg-gray-400",
-    danger: "bg-red-500 text-white hover:bg-red-600",
-  };
-
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      className={`${baseStyles} ${variants[variant]}`}
-    >
-      {loading && (
-        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+      className={classNames(
+        styles.button,
+        styles[variant],
+        { [styles.disabled]: disabled || loading }
       )}
+    >
+      {loading && <span className={styles.loader}></span>}
       {children}
     </button>
   );
