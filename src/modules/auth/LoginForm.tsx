@@ -41,7 +41,11 @@ export const LoginForm = () => {
     setError(null);
 
     try {
-      await authService.login(form);
+      const data = {
+        username: form.email,
+        password: form.password
+      }
+      await authService.login(data);
       navigate("/dashboard"); // Перенаправлення після успішного логіну
     } catch (error) {
       setError((error as Error).message || "Login failed. Please try again.");
@@ -55,13 +59,12 @@ export const LoginForm = () => {
       <h1 className={styles.title}>Login</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <Input
-          label="Email"
+          label="UserName"
           name="email"
-          type="email"
+          type="username"
           placeholder="Enter your email"
           value={form.email}
           onChange={handleChange}
-          required
         />
         <Input
           label="Password"
@@ -77,9 +80,15 @@ export const LoginForm = () => {
           {loading ? "Signing In..." : "Sign In"}
         </Button>
         <p className={styles.infoText}>
-          This is a test authentication. Enter any data to log in.
+          This is a test authentication.
+          Enter
+          <strong> UserName</strong>: emilys
+          <strong> Password</strong>: emilyspass.
           <br />
-          Це тестова авторизація. Для входу введіть будь-які дані.
+          Це тестова авторизація.
+          Для входу введіть 
+          <strong> UserName</strong>: emilys
+          <strong> Password</strong>: emilyspass.
         </p>
       </form>
     </div>
