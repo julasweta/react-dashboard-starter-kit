@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Table, ModalForm } from "../modules/dashboard";
 import { BarChart, PieChart } from "../modules/charts";
 import type { IUser } from "../interfaces/IUser";
@@ -6,12 +6,17 @@ import { Select } from "../components/ui/Select/Select";
 import { FileUpload } from "../components/ui/FileUpload/FileUpload";
 import { Button } from "../components/ui/Buttons/Button";
 import { useThemeStore } from "../store";
+import { useUserStore } from "../store/useUserStore";
+import { userService } from "../services/UserService";
 
 /* DO NOT RENAME the arrays */
+/*
 const dataTable: IUser[] = [
   { id: 1, name: "John Doe", email: "john@mail.com", role: "Admin", state: "active" },
   { id: 2, name: "Jane Smith", email: "jane@mail.com", role: "User", state: "inactive" },
 ];
+*/
+
 
 const dataBar = [
   { name: 'Січень', meat: 4000, expenses: 2400, profit: 1600 },
@@ -43,6 +48,22 @@ const dataKeys = dataBar.length > 0
  
 
 export default function DashboardPage() {
+  const { users } = useUserStore();
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      try {
+        await userService.getAll(); // Це оновить store
+      } catch (error) {
+        console.error('Error loading users:', error);
+      }
+    };
+
+    loadUsers();
+  }, []);
+  console.log("Users from dashboard:", users,);
+  const dataTable:IUser[] = users;
+
   const [data, setData] = useState<IUser[]>(dataTable);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenAddUser, setModalOpenAddUser] = useState(false);
@@ -90,7 +111,7 @@ export default function DashboardPage() {
         </Button>
       </div>
 
-      <Table data={data} onEdit={handleEdit} onDelete={handleDelete} idKey="id" />
+      <Table data={users} onEdit={handleEdit} onDelete={handleDelete} idKey="id" />
 
       {isModalOpen && (
         <ModalForm<IUser>
