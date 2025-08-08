@@ -84,12 +84,12 @@ export const LoginForm = () => {
           Enter
           <strong> UserName</strong>: emilys
           <strong> Password</strong>: emilyspass.
-          <br />
+          <p>_</p>
           Це тестова авторизація.
           Для входу введіть 
           <strong> UserName</strong>: emilys
           <strong> Password</strong>: emilyspass.
-        
+          <p>_</p>
           <a href="https://github.com/julasweta/react-dashboard-starter-kit " target="_blank" rel="noopener noreferrer" className={styles.link}>  Link to GitHub Project  </a>
         </p>
       </form>
