@@ -89,6 +89,8 @@ export const LoginForm = () => {
           Для входу введіть 
           <strong> UserName</strong>: emilys
           <strong> Password</strong>: emilyspass.
+        
+          <a href="https://github.com/julasweta/react-dashboard-starter-kit " target="_blank" rel="noopener noreferrer" className={styles.link}>  Link to GitHub Project  </a>
         </p>
       </form>
     </div>
